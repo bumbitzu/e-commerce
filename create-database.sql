@@ -8,6 +8,7 @@ CREATE TABLE product (
 CREATE TABLE customer (
   id SERIAL PRIMARY KEY ,
   name VARCHAR NOT NULL,
+  surname VARCHAR NOT NULL,
   address VARCHAR NOT NULL,
   balance DECIMAL(10,2) DEFAULT 0.00,
   email VARCHAR UNIQUE NOT NULL,

@@ -1,24 +1,29 @@
-db = require('../db/db.js');
-const bcrypt = require('bcrypt');
+const express = require('express');
+const router = express.Router();
+const passport = require('passport');
+const { register } = require('./methods/register');
 require('dotenv').config();
-const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
-//USERS ----------------------------
-async function register(req, res)
+const root = process.env.SERVER_ROOT;
+// register route
+router.post(`${root}register`, register);
+
+// login route
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/login-success',
+  failureRedirect: '/login-failure',
+}));
+
+// login success route
+router.get('/login-success', (req, res) =>
 {
-  const { name, address, email, password } = req.body;
-  const exisistingUser = await db.userExists(email);
-  if (exisistingUser)
-  {
-    res.status(400).json({ message: 'User already exists' });
-    return;
-  }
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-  const user = await db.createUser(name, address, email, hashedPassword);
-  res.json(user);
-}
-//export module as object
-module.exports = {
-  register,
+  res.json({ message: 'Login successful' });
+});
 
-};
+// login failure route
+router.get('/login-failure', (req, res) =>
+{
+  res.json({ message: 'Login failed' });
+});
+
+module.exports = router;
