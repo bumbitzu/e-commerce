@@ -9,13 +9,13 @@ const root = process.env.SERVER_ROOT;
 router.post(`${root}register`, register);
 
 // login route
-router.post('/login', passport.authenticate('local', {
-  successRedirect: '/login-success',
-  failureRedirect: '/login-failure',
+router.post(`${root}login`, passport.authenticate('local', {
+  successRedirect: `${root}login-success`,
+  failureRedirect: `${root}login-failure`,
 }));
 
 // login success route
-router.get('/login-success', (req, res) =>
+router.get(`${root}login-success`, (req, res) =>
 {
   if(req.isAuthenticated())
   {
@@ -24,12 +24,12 @@ router.get('/login-success', (req, res) =>
 });
 
 // login failure route
-router.get('/login-failure', (req, res) =>
+router.get(`${root}ogin-failure`, (req, res) =>
 {
   res.json({ message: 'Login failed' });
 });
 
-router.get('/logout', (req, res) =>
+router.get(`${root}logout`, (req, res) =>
 {
   if (!req.isAuthenticated())
   {
