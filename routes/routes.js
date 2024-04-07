@@ -17,7 +17,10 @@ router.post('/login', passport.authenticate('local', {
 // login success route
 router.get('/login-success', (req, res) =>
 {
-  res.json({ message: 'Login successful' });
+  if(req.isAuthenticated())
+  {
+    res.json({ message: 'Login successful' });
+  }
 });
 
 // login failure route
@@ -26,4 +29,21 @@ router.get('/login-failure', (req, res) =>
   res.json({ message: 'Login failed' });
 });
 
+router.get('/logout', (req, res) =>
+{
+  if (!req.isAuthenticated())
+  {
+    res.json({ message: 'You are not logged in' });
+    return;
+  }
+  req.logout((err) =>
+  {
+    if (err)
+    {
+      return next(err);
+    }
+    // Redirect to login page after logout
+    res.json({ message: 'Logout successful' });
+  });
+});
 module.exports = router;
