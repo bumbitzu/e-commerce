@@ -18,10 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: secret,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
 }));
-initializePassport(passport);
 
+initializePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 

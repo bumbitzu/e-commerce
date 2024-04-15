@@ -2,7 +2,8 @@ CREATE TABLE product (
   id SERIAL PRIMARY KEY,
   name VARCHAR,
   price DECIMAL(10,2),
-  stock_quantity INTEGER
+  stock_quantity INTEGER,
+  category VARCHAR
 );
 
 CREATE TABLE customer (
@@ -19,13 +20,14 @@ CREATE TABLE transactions (
   id SERIAL PRIMARY KEY,
   transaction_date TIMESTAMP,
   customer_id INTEGER,
-  product_id INTEGER,
+  cart_id INTEGER,
   quantity INTEGER,
   FOREIGN KEY (customer_id) REFERENCES customer (id),
-  FOREIGN KEY (product_id) REFERENCES product (id)
+  FOREIGN KEY (cart_id) REFERENCES cart (id)
 );
 
 CREATE TABLE cart (
+  id SERIAL PRIMARY KEY,
   customer_id INTEGER,
   product_id INTEGER,
   quantity INTEGER,
